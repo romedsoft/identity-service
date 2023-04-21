@@ -32,10 +32,13 @@ namespace IdentityServer
                 {
                     ClientName = "testclient",  
                     ClientId = "testclient",
+                    AllowedCorsOrigins = new List<string> {"http://localhost:8100" },
                     AllowedGrantTypes = GrantTypes.Code , 
-                    RedirectUris =  new List<string> { "http://localhost:8100/signin-oidc" },
+                    RedirectUris =  new List<string> { "http://localhost:8100" },
+                    RequireClientSecret = false,
                     AllowedScopes = { IdentityServerConstants.StandardScopes.OpenId, IdentityServerConstants.StandardScopes.Profile }
-                    ,ClientSecrets = {new Secret("UserClientSecret".Sha512()) }
+                    ,AllowAccessTokensViaBrowser = true
+                    //,ClientSecrets = {new Secret("UserClientSecret".Sha512()) }
                     ,RequireConsent = true
                 }
             };
