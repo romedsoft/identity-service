@@ -6,3 +6,4 @@
 /OauthServer/.vs/OauthServer
 /OauthServer/OauthServer.csproj.user
 /OauthServer/obj
+/IdentityServer/obj
