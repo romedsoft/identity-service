@@ -7,3 +7,4 @@
 /OauthServer/OauthServer.csproj.user
 /OauthServer/obj
 /IdentityServer/obj
+/IdentityServer/bin/Debug
