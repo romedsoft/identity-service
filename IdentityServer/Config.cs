@@ -15,11 +15,18 @@ namespace IdentityServer
 
         public static IEnumerable<ApiScope> ApiScopes =>
             new ApiScope[]
-            { };
+            {
+                new ApiScope("testServer", "Test Server"),
+                new ApiScope(name: "read",   displayName: "Read your data."),
+                new ApiScope(name: "write",  displayName: "Write your data."),
+                new ApiScope(name: "delete", displayName: "Delete your data.")
+            };
 
         public static IEnumerable<ApiResource> Apis =>
             new ApiResource[]
-            { };
+            {
+
+            };
 
         public static IEnumerable<Client> Clients =>
             new Client[]
@@ -36,6 +43,13 @@ namespace IdentityServer
                     ,AllowAccessTokensViaBrowser = true
                     //,ClientSecrets = {new Secret("UserClientSecret".Sha512()) }
                     ,RequireConsent = true
+                },
+                new Client
+                {
+                    ClientId = "msaccounts.client",
+                    ClientSecrets = { new Secret("yoursecret".Sha256()) },
+                    AllowedGrantTypes = GrantTypes.ClientCredentials,
+                    AllowedScopes = { "api1", "api2.read_only" }
                 }
             };
     }
