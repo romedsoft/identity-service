@@ -37,7 +37,7 @@ namespace IdentityServer
                     ClientId = "testclient",
                     AllowedCorsOrigins = new List<string> {"http://localhost:8100" },
                     AllowedGrantTypes = GrantTypes.Code , 
-                    RedirectUris =  new List<string> { "http://localhost:8100" },
+                    RedirectUris =  new List<string> { "http://localhost:8100/home", "http://localhost:8100/account/login" },
                     PostLogoutRedirectUris  = new List<string> { "http://localhost:8100/account/login" },
                     RequireClientSecret = false,
                     AllowedScopes = { IdentityServerConstants.StandardScopes.OpenId, IdentityServerConstants.StandardScopes.Profile, IdentityServerConstants.StandardScopes.OfflineAccess }
