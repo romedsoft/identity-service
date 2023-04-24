@@ -40,10 +40,12 @@ namespace IdentityServer
                     RedirectUris =  new List<string> { "http://localhost:8100" },
                     PostLogoutRedirectUris  = new List<string> { "http://localhost:8100/account/login" },
                     RequireClientSecret = false,
-                    AllowedScopes = { IdentityServerConstants.StandardScopes.OpenId, IdentityServerConstants.StandardScopes.Profile }
+                    AllowedScopes = { IdentityServerConstants.StandardScopes.OpenId, IdentityServerConstants.StandardScopes.Profile, IdentityServerConstants.StandardScopes.OfflineAccess }
                     ,AllowAccessTokensViaBrowser = true
                     //,ClientSecrets = {new Secret("UserClientSecret".Sha512()) }
-                    ,RequireConsent = true
+                    ,RequireConsent = true,
+                    AllowOfflineAccess = true,
+                    AccessTokenLifetime = 60,
                 },
                 new Client
                 {
