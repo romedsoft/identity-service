@@ -38,6 +38,7 @@ namespace IdentityServer
                     AllowedCorsOrigins = new List<string> {"http://localhost:8100" },
                     AllowedGrantTypes = GrantTypes.Code , 
                     RedirectUris =  new List<string> { "http://localhost:8100" },
+                    PostLogoutRedirectUris  = new List<string> { "http://localhost:8100/account/login" },
                     RequireClientSecret = false,
                     AllowedScopes = { IdentityServerConstants.StandardScopes.OpenId, IdentityServerConstants.StandardScopes.Profile }
                     ,AllowAccessTokensViaBrowser = true
