@@ -2,10 +2,12 @@
 // Licensed under the Apache License, Version 2.0. See LICENSE in the project root for license information.
 
 
+using IdentityServer.Data;
 using IdentityServer4.Hosting;
 using IdentityServerHost.Quickstart.UI;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -37,12 +39,21 @@ namespace IdentityServer
             services.AddControllersWithViews();
 
 
+            services.AddDbContext<ApplicationDbContext>(options =>
+            {
+                options.UseSqlite(connectionString, opt => opt.MigrationsAssembly(migrationsAssembly));
+            });
+
+            services.AddIdentity<IdentityUser, IdentityRole>()
+                .AddEntityFrameworkStores<ApplicationDbContext>();
+
 
             var builder = services.AddIdentityServer(options =>
             {
                 // see https://identityserver4.readthedocs.io/en/latest/topics/resources.html
                 options.EmitStaticAudienceClaim = true;
             })
+                .AddAspNetIdentity<IdentityUser>()
                 .AddConfigurationStore(options =>
                 {
                     options.ConfigureDbContext = builder => builder.UseSqlite(connectionString, opt => opt.MigrationsAssembly(migrationsAssembly));
@@ -50,8 +61,7 @@ namespace IdentityServer
                 .AddOperationalStore(options =>
                 {
                     options.ConfigureDbContext = builder => builder.UseSqlite(connectionString, opt => opt.MigrationsAssembly(migrationsAssembly));
-                })
-                .AddTestUsers(TestUsers.Users);
+                });
 
 
             services.AddCors(options =>
