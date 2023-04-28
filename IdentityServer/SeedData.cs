@@ -50,6 +50,7 @@ namespace IdentityServer
 
                 var ctx = scope.ServiceProvider.GetService<ApplicationDbContext>();
                 ctx.Database.Migrate();
+                EnsureRoles(scope);
                 EnsureUsers(scope);
             }
         }
@@ -57,6 +58,12 @@ namespace IdentityServer
         private static void EnsureUsers(IServiceScope scope)
         {
             var userMgr = scope.ServiceProvider.GetRequiredService<UserManager<IdentityUser>>();
+
+            var roleMgr = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+            var member = roleMgr.FindByNameAsync("member").Result;
+            var admin = roleMgr.FindByNameAsync("admin").Result;
+
+
             var alice = userMgr.FindByNameAsync("alice").Result;
             if (alice == null)
             {
@@ -84,12 +91,19 @@ namespace IdentityServer
                     throw new Exception(result.Errors.First().Description);
                 }
 
+                if (!userMgr.IsInRoleAsync(alice, member.Name).Result)
+                {
+                    _ = userMgr.AddToRoleAsync(alice, member.Name).Result;
+                }
+
                 Log.Debug("alice created");
             }
             else
             {
                 Log.Debug("alice already exists");
             }
+
+
 
             var bob = userMgr.FindByNameAsync("bob").Result;
             if (bob == null)
@@ -119,11 +133,53 @@ namespace IdentityServer
                     throw new Exception(result.Errors.First().Description);
                 }
 
+                if (!userMgr.IsInRoleAsync(bob, admin.Name).Result)
+                {
+                    _ = userMgr.AddToRoleAsync(bob, admin.Name).Result;
+                }
+
+                if (!userMgr.IsInRoleAsync(bob, member.Name).Result)
+                {
+                    _ = userMgr.AddToRoleAsync(bob, member.Name).Result;
+                }
+
                 Log.Debug("bob created");
             }
             else
             {
                 Log.Debug("bob already exists");
+            }
+
+            
+
+            
+
+            
+
+
+        }
+
+        private static void EnsureRoles(IServiceScope scope)
+        {
+            var roleMgr = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+            var member = roleMgr.FindByNameAsync("member").Result;
+            if (member == null)
+            {
+                member = new IdentityRole
+                {
+                    Name = "member"
+                };
+                _ = roleMgr.CreateAsync(member).Result;
+            }
+
+            var admin = roleMgr.FindByNameAsync("admin").Result;
+            if (admin == null)
+            {
+                admin = new IdentityRole
+                {
+                    Name = "admin"
+                };
+                _ = roleMgr.CreateAsync(admin).Result;
             }
         }
 
