@@ -41,16 +41,16 @@ namespace IdentityServer
                     ClientId = "testclient",
                     AllowedCorsOrigins = new List<string> {"http://localhost:8100" },
                     AllowedGrantTypes = GrantTypes.Code , 
-                    RedirectUris =  new List<string> { "http://localhost:8100/callback" },
-                    PostLogoutRedirectUris  = new List<string> { "http://localhost:8100/account/login" },
+                    RedirectUris =  new List<string> { "http://localhost:8100/signin-callback" },
+                    PostLogoutRedirectUris  = new List<string> { "http://localhost:8100/signout-callback" },
                     RequireClientSecret = false,
                     AllowedScopes = { IdentityServerConstants.StandardScopes.OpenId, IdentityServerConstants.StandardScopes.Profile }
                     ,AllowAccessTokensViaBrowser = true
                     //,ClientSecrets = {new Secret("UserClientSecret".Sha512()) }
                     ,RequireConsent = true,
                     AllowOfflineAccess = true,
-                    AlwaysIncludeUserClaimsInIdToken = true,
-                    AlwaysSendClientClaims = true,
+                    AlwaysIncludeUserClaimsInIdToken = false,
+                    AlwaysSendClientClaims = false,
                     AccessTokenLifetime = 60,
                 },
                 new Client

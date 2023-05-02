@@ -10,6 +10,8 @@ using IdentityServer4.Models;
 using IdentityServer4.Services;
 using IdentityServer4.Stores;
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
@@ -207,11 +209,17 @@ namespace IdentityServerHost.Quickstart.UI
 
             if (User?.Identity.IsAuthenticated == true)
             {
+                Response.Cookies.Delete(".AspNetCore.Identity.Application");
+                Response.Cookies.Delete("idserv.external");
+                Response.Cookies.Delete("idserv.session");
+
                 // delete local authentication cookie
                 await HttpContext.SignOutAsync();
 
+
                 // raise the logout event
                 await _events.RaiseAsync(new UserLogoutSuccessEvent(User.GetSubjectId(), User.GetDisplayName()));
+
             }
 
             // check if we need to trigger sign-out at an upstream identity provider
