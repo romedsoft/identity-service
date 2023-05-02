@@ -3,7 +3,9 @@
 
 
 using IdentityServer.Data;
+using IdentityServer.Services;
 using IdentityServer4.Hosting;
+using IdentityServer4.Services;
 using IdentityServerHost.Quickstart.UI;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -37,7 +39,7 @@ namespace IdentityServer
 
             // uncomment, if you want to add an MVC-based UI
             services.AddControllersWithViews();
-
+            services.AddScoped<IProfileService, ProfileService>();
 
             services.AddDbContext<ApplicationDbContext>(options =>
             {
@@ -54,6 +56,7 @@ namespace IdentityServer
                 options.EmitStaticAudienceClaim = true;
             })
                 .AddAspNetIdentity<IdentityUser>()
+                .AddProfileService<ProfileService>()
                 .AddConfigurationStore(options =>
                 {
                     options.ConfigureDbContext = builder => builder.UseSqlite(connectionString, opt => opt.MigrationsAssembly(migrationsAssembly));

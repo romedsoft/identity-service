@@ -10,7 +10,11 @@ namespace IdentityServer
             new IdentityResource[]
             {
                 new IdentityResources.OpenId(),
-                new IdentityResources.Profile()
+                new IdentityResources.Profile(),
+                new IdentityResource(
+                    "roles",
+                    "Your role(s)",
+                    new List<string>() { "role" })
             };
 
         public static IEnumerable<ApiScope> ApiScopes =>
@@ -40,11 +44,13 @@ namespace IdentityServer
                     RedirectUris =  new List<string> { "http://localhost:8100/callback" },
                     PostLogoutRedirectUris  = new List<string> { "http://localhost:8100/account/login" },
                     RequireClientSecret = false,
-                    AllowedScopes = { IdentityServerConstants.StandardScopes.OpenId, IdentityServerConstants.StandardScopes.Profile, IdentityServerConstants.StandardScopes.OfflineAccess }
+                    AllowedScopes = { IdentityServerConstants.StandardScopes.OpenId, IdentityServerConstants.StandardScopes.Profile }
                     ,AllowAccessTokensViaBrowser = true
                     //,ClientSecrets = {new Secret("UserClientSecret".Sha512()) }
                     ,RequireConsent = true,
                     AllowOfflineAccess = true,
+                    AlwaysIncludeUserClaimsInIdToken = true,
+                    AlwaysSendClientClaims = true,
                     AccessTokenLifetime = 60,
                 },
                 new Client
