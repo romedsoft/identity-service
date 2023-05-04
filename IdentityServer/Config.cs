@@ -37,6 +37,7 @@ namespace IdentityServer
             {
                 new Client
                 {
+                    
                     ClientName = "testclient",  
                     ClientId = "testclient",
                     AllowedCorsOrigins = new List<string> {"http://localhost:8100" },

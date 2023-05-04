@@ -43,7 +43,7 @@ namespace IdentityServer
 
             services.AddDbContext<ApplicationDbContext>(options =>
             {
-                options.UseSqlite(connectionString, opt => opt.MigrationsAssembly(migrationsAssembly));
+                options.UseSqlServer(connectionString, opt => opt.MigrationsAssembly(migrationsAssembly));
             });
 
             services.AddIdentity<IdentityUser, IdentityRole>()
@@ -59,11 +59,11 @@ namespace IdentityServer
                 .AddProfileService<ProfileService>()
                 .AddConfigurationStore(options =>
                 {
-                    options.ConfigureDbContext = builder => builder.UseSqlite(connectionString, opt => opt.MigrationsAssembly(migrationsAssembly));
+                    options.ConfigureDbContext = builder => builder.UseSqlServer(connectionString, opt => opt.MigrationsAssembly(migrationsAssembly));
                 })
                 .AddOperationalStore(options =>
                 {
-                    options.ConfigureDbContext = builder => builder.UseSqlite(connectionString, opt => opt.MigrationsAssembly(migrationsAssembly));
+                    options.ConfigureDbContext = builder => builder.UseSqlServer(connectionString, opt => opt.MigrationsAssembly(migrationsAssembly));
                 });
 
 

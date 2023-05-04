@@ -27,7 +27,7 @@
 
 @section scripts
 {
-    @if (Model.AutomaticRedirectAfterSignOut)
+    @if (Model.AutomaticRedirectAfterSignOut && Model.PostLogoutRedirectUri != null)
     {
         <script src="~/js/signout-redirect.js"></script>
     }
