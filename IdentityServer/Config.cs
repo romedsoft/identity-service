@@ -60,6 +60,24 @@ namespace IdentityServer
                     ClientSecrets = { new Secret("yoursecret".Sha256()) },
                     AllowedGrantTypes = GrantTypes.ClientCredentials,
                     AllowedScopes = { "api1", "api2.read_only" }
+                },
+                new Client
+                {
+
+                    ClientName = "testclient2",
+                    ClientId = "testclient2",
+                    AllowedCorsOrigins = new List<string> {"http://localhost:3000" },
+                    AllowedGrantTypes= GrantTypes.ResourceOwnerPassword,
+                    ClientSecrets = new List<Secret> { new Secret { Value = "dummy" } },
+                    AllowedScopes = { IdentityServerConstants.StandardScopes.OpenId, IdentityServerConstants.StandardScopes.Profile, "role" }
+                    ,AllowAccessTokensViaBrowser = true
+                    ,RequireClientSecret = false
+                    //,ClientSecrets = {new Secret("UserClientSecret".Sha512()) }
+                    ,RequireConsent = true,
+                    AllowOfflineAccess = true,
+                    AlwaysIncludeUserClaimsInIdToken = true,
+                    AlwaysSendClientClaims = true,
+                    AccessTokenLifetime = 60,
                 }
             };
     }

@@ -4,8 +4,10 @@
 
 using IdentityServer.Data;
 using IdentityServer.Services;
+using IdentityServer4.AspNetIdentity;
 using IdentityServer4.Hosting;
 using IdentityServer4.Services;
+using IdentityServer4.Validation;
 using IdentityServerHost.Quickstart.UI;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -40,6 +42,7 @@ namespace IdentityServer
             // uncomment, if you want to add an MVC-based UI
             services.AddControllersWithViews();
             services.AddScoped<IProfileService, ProfileService>();
+            services.AddTransient<IResourceOwnerPasswordValidator, ResourceOwnerPasswordValidator>();
 
             services.AddDbContext<ApplicationDbContext>(options =>
             {
@@ -57,6 +60,7 @@ namespace IdentityServer
             })
                 .AddAspNetIdentity<IdentityUser>()
                 .AddProfileService<ProfileService>()
+                .AddResourceOwnerValidator<ResourceOwnerPasswordValidator>()
                 .AddConfigurationStore(options =>
                 {
                     options.ConfigureDbContext = builder => builder.UseSqlServer(connectionString, opt => opt.MigrationsAssembly(migrationsAssembly));

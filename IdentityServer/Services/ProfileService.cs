@@ -35,6 +35,8 @@ namespace IdentityServer.Services
             List<Claim> claims = userClaims.Claims.ToList();
             claims = claims.Where(claim => context.RequestedClaimTypes.Contains(claim.Type)).ToList();
 
+            claims.Add(new Claim("user_id", user.Id));
+
             if (_userMgr.SupportsUserRole)
             {
                 IList<string> roles = await _userMgr.GetRolesAsync(user);
